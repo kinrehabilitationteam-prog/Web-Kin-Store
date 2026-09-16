@@ -1,0 +1,276 @@
+/* KIN HOMECARE: gold from the supplied logo, charcoal, and warm white. */
+.medical-hero-art {
+  display: flex;
+  align-items: center;
+  padding: 25px;
+  background: #fff;
+}
+.medical-hero-art img {
+  position: static;
+  width: 100%;
+  height: auto;
+  filter: none;
+  border-radius: 7px;
+}
+.medical-hero-art:after {
+  display: none;
+}
+.rental-details {
+  margin-top: 28px;
+}
+.rental-details h2 {
+  font-size: 18px;
+  font-weight: normal;
+}
+.rental-details p {
+  font-size: 12px;
+}
+.rental-details th,
+.rental-details td {
+  padding: 12px;
+  font-size: 11px;
+}
+.rental-details small {
+  display: block;
+  margin-top: 12px;
+  color: #777;
+  font-size: 10px;
+}
+.price-row small {
+  font-size: 11px;
+  color: #74716b;
+}
+:root {
+  --brand-gold: #d6a43a;
+  --brand-gold-light: #f7edda;
+  --brand-ink: #343434;
+  --primary: #343434;
+  --muted: #74716b;
+  --line: #e6e0d5;
+  color: var(--brand-ink);
+  background: #fcfbf8;
+}
+.brand {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  font-size: inherit;
+  line-height: 1;
+  letter-spacing: normal;
+}
+.brand img {
+  display: block;
+  width: 158px;
+  height: auto;
+  object-fit: contain;
+}
+footer .brand img {
+  width: 140px;
+}
+.announcement {
+  background: var(--brand-gold);
+  color: #242424;
+}
+.primary,
+.tabs button.active,
+.tabs .active,
+.chip.active {
+  background: var(--brand-gold);
+  border-color: var(--brand-gold);
+  color: #242424;
+}
+.primary:hover:not(:disabled),
+.add-cart:hover:not(:disabled) {
+  background: #e7b94f;
+  border-color: #e7b94f;
+  color: #242424;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline-color: #a57212;
+}
+nav a.active {
+  border-color: var(--brand-gold);
+}
+.eyebrow {
+  color: #87631e;
+}
+.hero {
+  background: #f4efe5;
+}
+.hero-art {
+  background:
+    radial-gradient(ellipse at 60% 45%, #fff9eb, transparent 65%), #eae1cf;
+}
+.story,
+.notice,
+.order-summary,
+.payment-method {
+  background: #f7f1e5;
+}
+.product-image {
+  background: #f1eee7;
+}
+.badge {
+  background: #fffaf0;
+  color: #745418;
+}
+.badge.sold {
+  color: #766b60;
+}
+.metric {
+  border-top: 3px solid var(--brand-gold);
+}
+.available input {
+  accent-color: #9f741e;
+}
+#cart-count {
+  background: var(--brand-gold);
+  color: #242424;
+}
+.orders-link {
+  font-size: 12px;
+}
+.sidebar {
+  background: #fff;
+  color: #242424;
+}
+.login-intro {
+  background: #303030;
+}
+.sidebar .brand,
+.login-intro .brand {
+  align-self: flex-start;
+  padding: 10px 12px;
+  background: #fffdf8;
+  border-radius: 7px;
+}
+.sidebar .brand img {
+  width: 145px;
+}
+.sidebar .brand {
+  background: #fff;
+}
+.login-intro .brand img {
+  width: 187px;
+}
+.sidebar nav a.active,
+.sidebar nav a:hover {
+  background: var(--brand-gold-light);
+  color: #242424;
+}
+.sidebar nav a,
+.sidebar .nav-label,
+.sidebar .account-menu,
+.sidebar-bottom button {
+  color: #242424;
+}
+.sidebar .account-menu > summary,
+.sidebar-bottom button {
+  border-color: #24242440;
+}
+.sidebar .account-menu > summary:focus-visible {
+  outline-color: #343434;
+}
+.sidebar .account-menu .sidebar-bottom {
+  background: #fff;
+  border-color: #24242440;
+}
+.login-intro .eyebrow {
+  color: #e1bb68;
+}
+.login-intro p,
+.intro-footer {
+  color: #d1c9b8;
+}
+.login-intro:after {
+  border-color: #d6a43a40;
+  box-shadow:
+    0 0 0 65px #d6a43a0a,
+    0 0 0 130px #d6a43a08;
+}
+.login-panel {
+  background: #fcfaf5;
+}
+.login-icon,
+.admin-badge {
+  background: var(--brand-gold-light);
+  color: #805b15;
+}
+.admin-header {
+  border-bottom: 2px solid var(--brand-gold);
+}
+.order-summary .notice {
+  background: #eee2c9;
+}
+.status-pill.pending,
+.order-status.pending {
+  background: #faf0d9;
+}
+@media (max-width: 720px) {
+  .brand img {
+    width: 135px;
+  }
+  .login-intro .brand img {
+    width: 155px;
+  }
+  .sidebar .brand img {
+    width: 130px;
+  }
+  .orders-link {
+    font-size: 13px;
+  }
+  button,
+  .button {
+    min-height: 44px;
+  }
+  .icon-button {
+    min-width: 44px;
+    flex-shrink: 0;
+  }
+  .field input,
+  .field textarea,
+  .field select {
+    font-size: 16px;
+    min-width: 0;
+  }
+  .medical-hero-art {
+    min-height: 0;
+    padding: 16px;
+    justify-content: center;
+  }
+  .medical-hero-art img {
+    width: auto;
+    max-width: 100%;
+    max-height: 300px;
+  }
+  .rental-details table {
+    white-space: normal;
+  }
+  .rental-details td,
+  .rental-details th {
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+  .rental-details p,
+  .rental-details small {
+    font-size: 13px;
+  }
+  #toast {
+    width: max-content;
+    max-width: calc(100% - 32px);
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 700px) {
+  .login-intro .brand {
+    align-self: center;
+  }
+  .login-intro .intro-footer {
+    text-align: center;
+  }
+}

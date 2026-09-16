@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: catalog
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: catalog
+    ports: ["127.0.0.1:5432:5432"]
+    volumes: ["postgres_data:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U catalog"]
+      interval: 5s
+      retries: 10
+  meilisearch:
+    image: getmeili/meilisearch:v1.15
+    environment:
+      MEILI_MASTER_KEY: ${MEILISEARCH_KEY:?Set MEILISEARCH_KEY in .env}
+      MEILI_NO_ANALYTICS: "true"
+    ports: ["127.0.0.1:7700:7700"]
+    volumes: ["meili_data:/meili_data"]
+volumes:
+  postgres_data:
+  meili_data:

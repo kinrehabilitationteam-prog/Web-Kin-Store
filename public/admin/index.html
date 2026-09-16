@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="theme-color" content="#d6a43a" />
+    <title>KIN HOMECARE Admin — ระบบจัดการหลังบ้าน</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/admin/styles.css" />
+    <script type="module" src="/admin/app.js"></script>
+    <link rel="stylesheet" href="/brand.css" />
+    <link rel="icon" type="image/webp" href="/assets/logo-navbar.webp" />
+  </head>
+  <body class="login-screen">
+    <aside class="sidebar">
+      <a class="brand" href="/admin"
+        ><img
+          src="/assets/logo-navbar.webp"
+          alt="KIN HOMECARE"
+          width="211"
+          height="80"
+      /></a>
+      <p class="nav-label">จัดการร้านค้า</p>
+      <nav aria-label="เมนูผู้ดูแล">
+        <a data-admin-nav href="/admin">สินค้า</a
+        ><a data-admin-nav href="/admin/categories">หมวดหมู่</a
+        ><a data-admin-nav href="/admin/orders">คำสั่งซื้อ</a>
+      </nav>
+      <details class="account-menu">
+        <summary>เมนูร้าน <span aria-hidden="true">⌄</span></summary>
+        <div class="sidebar-bottom">
+          <a href="/">↗ เปิดหน้าร้าน</a
+          ><button id="shell-logout">ออกจากระบบ</button>
+        </div>
+      </details>
+    </aside>
+    <div class="admin-workspace">
+      <header class="admin-header">
+        <span>KIN HOMECARE / ระบบจัดการหลังบ้าน</span
+        ><span class="admin-badge">● ผู้ดูแลระบบ</span>
+      </header>
+      <main id="app" tabindex="-1">
+        <div class="empty">กำลังตรวจสอบการเข้าสู่ระบบ…</div>
+      </main>
+    </div>
+    <dialog id="editor"></dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

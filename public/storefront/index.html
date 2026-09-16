@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#d6a43a" />
+    <meta
+      name="description"
+      content="KIN HOMECARE — แค็ตตาล็อกเตียงผู้ป่วย รถเข็น และอุปกรณ์การแพทย์ให้เช่า"
+    />
+    <title>KIN HOMECARE — อุปกรณ์การแพทย์เพื่อการดูแลที่บ้าน</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@100;200;300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/storefront/styles.css" />
+    <link rel="stylesheet" href="/storefront/shop.css" />
+    <script type="module" src="/storefront/app.js"></script>
+    <link rel="stylesheet" href="/brand.css" />
+    <link rel="icon" type="image/webp" href="/assets/logo-navbar.webp" />
+  </head>
+  <body>
+    <div class="announcement">
+      KIN HOMECARE · MEDICAL EQUIPMENT
+      <span>สอบถามอุปกรณ์และราคาเช่า 061-881-9399</span>
+    </div>
+    <header>
+      <a class="brand" href="/" aria-label="KIN HOMECARE หน้าแรก"
+        ><img
+          src="/assets/logo-navbar.webp"
+          alt="KIN HOMECARE"
+          width="211"
+          height="80"
+      /></a>
+      <nav aria-label="เมนูหลัก">
+        <a href="/" data-nav="home">หน้าแรก</a
+        ><a href="/catalog" data-nav="catalog">สินค้า</a
+        ><a href="/orders" data-nav="orders">คำสั่งซื้อของฉัน</a>
+      </nav>
+      <div class="header-actions">
+        <a class="cart-link" href="/cart"
+          >ตะกร้า <span id="cart-count">0</span></a
+        >
+      </div>
+    </header>
+    <main id="app" tabindex="-1">
+      <p class="loading">กำลังโหลดแค็ตตาล็อก…</p>
+    </main>
+    <footer>
+      <a class="brand" href="/"
+        ><img
+          src="/assets/logo-navbar.webp"
+          alt="KIN HOMECARE"
+          width="211"
+          height="80"
+      /></a>
+      <p>อุปกรณ์การแพทย์เพื่อการดูแลที่บ้าน</p>
+      <span>© 2026 KIN HOMECARE · แค็ตตาล็อกอุปกรณ์การแพทย์</span>
+    </footer>
+    <dialog id="editor"></dialog>
+    <div id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
