@@ -75,6 +75,30 @@ test("UI: homepage → search → details → login → product/category managem
   );
   await waitFor(() => $(".card"));
   assert.equal(w.document.querySelectorAll(".card").length, 8);
+  const searchInput = $("#search-form input");
+  searchInput.focus();
+  searchInput.value = "BAAN-001";
+  searchInput.dispatchEvent(new w.Event("input", { bubbles: true }));
+  await waitFor(() => $(".search-preview-item"));
+  assert.match($(".search-preview-item").textContent, /แจกัน/);
+  assert.equal(w.location.pathname, "/");
+  searchInput.dispatchEvent(
+    new w.KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }),
+  );
+  assert.equal(w.document.activeElement, $(".search-preview-item"));
+  $(".search-preview-item").click();
+  await waitFor(() => $(".detail"));
+  assert.equal($("#search-preview").hidden, true);
+  searchInput.focus();
+  searchInput.value = "no-match-preview-xyz";
+  searchInput.dispatchEvent(new w.Event("input", { bubbles: true }));
+  await waitFor(() => $("#search-preview").textContent.includes("ไม่พบสินค้า"));
+  searchInput.value = "BAAN-001";
+  searchInput.dispatchEvent(new w.Event("input", { bubbles: true }));
+  searchInput.value = "";
+  searchInput.dispatchEvent(new w.Event("input", { bubbles: true }));
+  await new Promise((r) => setTimeout(r, 300));
+  assert.equal($("#search-preview").hidden, true);
   $("#search-form input").value = "BAAN-001";
   submit("#search-form");
   await waitFor(
@@ -110,6 +134,23 @@ test("UI: homepage → search → details → login → product/category managem
   $("#edit-form [name=price]").value = "125";
   $("#edit-form [name=stock]").value = "5";
   $("#edit-form [name=description]").value = "Created through the product form";
+  const imageFile = new w.File(
+    [
+      Buffer.from(
+        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=",
+        "base64",
+      ),
+    ],
+    "product.png",
+    { type: "image/png" },
+  );
+  Object.defineProperty($("#product-image-file"), "files", {
+    value: [imageFile],
+  });
+  $("#product-image-file").dispatchEvent(new w.Event("change"));
+  await waitFor(() =>
+    $("#image-upload-preview").src.startsWith("data:image/png"),
+  );
   submit("#edit-form");
   await waitFor(
     () =>
@@ -119,6 +160,7 @@ test("UI: homepage → search → details → login → product/category managem
     (p) => p.sku === "UI-001",
   );
   assert.equal(product.price, 125);
+  assert.match(product.image, /^\/api\/images\/[a-f0-9]{64}$/);
   $(`[data-edit="${product.id}"]`).click();
   $("#edit-form [name=price]").value = "175";
   submit("#edit-form");
@@ -128,6 +170,10 @@ test("UI: homepage → search → details → login → product/category managem
   assert.equal(
     (await repository.listProducts()).find((p) => p.id === product.id).price,
     175,
+  );
+  assert.equal(
+    (await repository.listProducts()).find((p) => p.id === product.id).image,
+    product.image,
   );
   $(`[data-delete="${product.id}"]`).click();
   $("#confirm").click();

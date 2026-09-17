@@ -28,7 +28,7 @@ export class CommerceService {
     const data = checkoutInput(input);
     const order = await this.orders.create({
       ...data,
-      id: this.newId(),
+      id: this.gateway.newOrderId?.() || this.newId(),
       owner,
       provider: this.gateway.provider,
       fingerprint: this.fingerprint(
@@ -45,12 +45,29 @@ export class CommerceService {
       );
   }
   async start(owner, id) {
+    let paymentAttemptFresh = false;
+    if (this.gateway.requiresStartMarker) {
+      // Persist before remote I/O so uncertain requests cannot accidentally release stock.
+      await this.orders.mutate(id, owner, async (order) => {
+        this.checkProvider(order);
+        if (
+          order.status !== "pending" ||
+          Date.now() >= Date.parse(order.expiresAt)
+        )
+          return order;
+        paymentAttemptFresh = !order.paymentId;
+        return { ...order, paymentId: order.paymentId || order.id };
+      });
+    }
     const result = await this.orders.mutate(id, owner, async (order) => {
       this.checkProvider(order);
       if (order.status !== "pending") return order;
       if (Date.now() >= Date.parse(order.expiresAt))
         return this.applyState(order, await this.gateway.cancel(order));
-      const session = await this.gateway.start(order);
+      const session = await this.gateway.start({
+        ...order,
+        paymentAttemptFresh,
+      });
       return { ...order, paymentId: session.id, checkoutUrl: session.url };
     });
     return this.publicOrder(result);
@@ -137,6 +154,14 @@ export class CommerceService {
       });
       return this.applyState(order, state);
     });
+  }
+  async paySolutionsPostback(id, token) {
+    if (
+      this.gateway.provider !== "paysolutions" ||
+      !this.gateway.verifyPostback(id, token)
+    )
+      throw new CatalogError("Postback ไม่ถูกต้อง", 403);
+    await this.refresh(null, id);
   }
   async expirePending() {
     for (const order of await this.orders.pending(this.gateway.provider)) {

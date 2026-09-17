@@ -26,8 +26,8 @@ export function createHttpServer(
     });
     res.end(JSON.stringify(data));
   };
-  async function body(req) {
-    const raw = await rawBody(req);
+  async function body(req, limit) {
+    const raw = await rawBody(req, limit);
     const text = raw.toString("utf8");
     try {
       const value = JSON.parse(text);
@@ -38,12 +38,12 @@ export function createHttpServer(
       throw new CatalogError("ข้อมูล JSON ไม่ถูกต้อง");
     }
   }
-  async function rawBody(req) {
+  async function rawBody(req, limit = 65536) {
     const chunks = [];
     let length = 0;
     for await (const chunk of req) {
       length += chunk.length;
-      if (length > 65536) throw new CatalogError("ข้อมูลมีขนาดใหญ่เกินไป", 413);
+      if (length > limit) throw new CatalogError("ข้อมูลมีขนาดใหญ่เกินไป", 413);
       chunks.push(chunk);
     }
     return Buffer.concat(chunks);
@@ -53,7 +53,7 @@ export function createHttpServer(
     res.setHeader("Referrer-Policy", "same-origin");
     res.setHeader(
       "Content-Security-Policy",
-      "default-src 'self'; img-src 'self' https:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
+      "default-src 'self'; img-src 'self' https: data:; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'",
     );
     try {
       const url = new URL(req.url, "http://localhost"),
@@ -71,6 +71,17 @@ export function createHttpServer(
         ?.slice(16);
       const authenticated = !!token && sessions.has(token);
       if (path.startsWith("/api/")) {
+        const paysoCallback = path.match(
+          /^\/api\/payments\/paysolutions\/postback\/(\d{12})$/,
+        );
+        if (paysoCallback && method === "POST" && commerce) {
+          await rawBody(req);
+          await commerce.paySolutionsPostback(
+            paysoCallback[1],
+            url.searchParams.get("token") || "",
+          );
+          return json(res, 200, { received: true });
+        }
         if (
           path === "/api/payments/stripe/webhook" &&
           method === "POST" &&
@@ -149,6 +160,21 @@ export function createHttpServer(
           return;
         if (method !== "GET" && !authenticated)
           throw new CatalogError("กรุณาเข้าสู่ระบบผู้ดูแล", 401);
+        if (path === "/api/images" && method === "POST")
+          return json(
+            res,
+            201,
+            await service.uploadImage(await body(req, 2900000)),
+          );
+        const imageMatch = path.match(/^\/api\/images\/([a-f0-9]{64})$/);
+        if (imageMatch && method === "GET") {
+          const image = await service.image(imageMatch[1]);
+          res.writeHead(200, {
+            "Content-Type": image.type,
+            "Cache-Control": "public, max-age=31536000, immutable",
+          });
+          return res.end(Buffer.from(image.data, "base64"));
+        }
         const match = path.match(
           /^\/api\/(products|categories)(?:\/([^/]+))?$/,
         );

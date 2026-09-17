@@ -37,6 +37,7 @@ export function productInput(input) {
   if (
     image &&
     !/^https:\/\/[^\s]+$/.test(image) &&
+    !/^\/api\/images\/[a-f0-9]{64}$/.test(image) &&
     !/^\/assets\/(?:[a-z-]+\.svg|kin\/product-\d+\.(?:jpg|webp))$/.test(image)
   )
     throw new CatalogError("รูปภาพต้องเป็นลิงก์ HTTPS");

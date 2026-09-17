@@ -113,6 +113,67 @@ test("HTTP authentication, cookies, write access, CSRF and CRUD", async (t) => {
   const login = await request("/api/session", "POST", { password });
   assert.equal(login.status, 200);
   const cookie = login.headers.get("set-cookie").split(";")[0];
+  const png =
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jRZkAAAAASUVORK5CYII=";
+  const imageData = { data: "data:image/png;base64," + png };
+  assert.equal((await request("/api/images", "POST", imageData)).status, 401);
+  assert.equal(
+    (
+      await request(
+        "/api/images",
+        "POST",
+        { data: "data:image/png;base64,aGVsbG8=" },
+        cookie,
+      )
+    ).status,
+    400,
+  );
+  assert.equal(
+    (
+      await request(
+        "/api/images",
+        "POST",
+        { data: "data:image/svg+xml;base64,PHN2Zz4=" },
+        cookie,
+      )
+    ).status,
+    400,
+  );
+  assert.equal(
+    (
+      await request(
+        "/api/images",
+        "POST",
+        {
+          data:
+            "data:image/png;base64," +
+            Buffer.alloc(2 * 1024 * 1024 + 1).toString("base64"),
+        },
+        cookie,
+      )
+    ).status,
+    413,
+  );
+  const upload = await request("/api/images", "POST", imageData, cookie);
+  assert.equal(upload.status, 201);
+  const { url: imageUrl } = await upload.json();
+  const served = await request(imageUrl);
+  assert.equal(served.headers.get("content-type"), "image/png");
+  assert.equal(Buffer.from(await served.arrayBuffer()).toString("base64"), png);
+  assert.equal(
+    (await (await request("/api/images", "POST", imageData, cookie)).json())
+      .url,
+    imageUrl,
+  );
+  const original = (await (await request("/api/products")).json()).items[0];
+  const saved = await request(
+    "/api/products/" + original.id,
+    "PUT",
+    { ...original, image: imageUrl },
+    cookie,
+  );
+  assert.equal(saved.status, 200);
+  assert.equal((await saved.json()).image, imageUrl);
   assert.match(login.headers.get("set-cookie"), /HttpOnly; SameSite=Strict/);
   assert.equal(
     (await (await request("/api/session", "GET", undefined, cookie)).json())

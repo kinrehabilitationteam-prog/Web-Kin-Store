@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: 14px;
   white-space: nowrap;
 }
 #cart-count {
@@ -18,14 +18,14 @@
   border-radius: 50%;
   background: var(--primary);
   color: white;
-  font-size: 10px;
+  font-size: 14px;
   padding: 3px;
 }
 .add-cart {
   margin-top: 15px;
   width: 100%;
   background: transparent;
-  font-size: 11px;
+  font-size: 14px;
   padding: 10px;
 }
 .add-cart:hover:not(:disabled) {
@@ -65,10 +65,10 @@
 }
 .cart-item-info {
   flex: 1;
-  font-size: 13px;
+  font-size: 15px;
 }
 .cart-item-info p {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
 }
 .cart-item-end {
@@ -76,7 +76,7 @@
   flex-direction: column;
   align-items: end;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 15px;
 }
 .quantity {
   display: inline-flex;
@@ -93,13 +93,13 @@
 .quantity span {
   min-width: 30px;
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
 }
 .text-button {
   border: 0;
   background: transparent;
   padding: 9px 0;
-  font-size: 12px;
+  font-size: 14px;
 }
 .cart-list > .small-link {
   display: inline-block;
@@ -121,7 +121,7 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  font-size: 13px;
+  font-size: 15px;
   padding: 12px 0;
 }
 .summary-line.total {
@@ -138,7 +138,7 @@
   margin: 6px 0;
 }
 .muted-note {
-  font-size: 11px;
+  font-size: 14px;
   color: #757575;
   line-height: 1.9;
 }
@@ -160,7 +160,7 @@
   border-radius: 5px;
   display: flex;
   gap: 15px;
-  font-size: 12px;
+  font-size: 14px;
 }
 .payment-method > span {
   font-size: 23px;
@@ -169,7 +169,7 @@
   font-weight: normal;
 }
 .payment-method p {
-  font-size: 11px;
+  font-size: 14px;
   color: var(--muted);
   line-height: 1.8;
   margin-bottom: 0;
@@ -180,7 +180,7 @@
   gap: 13px;
   padding: 14px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 12px;
+  font-size: 14px;
 }
 .order-item img {
   width: 52px;
@@ -199,7 +199,7 @@
 }
 .order-item small {
   display: block;
-  font-size: 10px;
+  font-size: 14px;
   margin-top: 5px;
   color: var(--muted);
 }
@@ -213,7 +213,7 @@
 .order-summary .notice {
   margin: 5px 0 15px;
   background: #e4e4e4;
-  font-size: 11px;
+  font-size: 14px;
 }
 .order-status {
   padding: 27px 32px;
@@ -230,7 +230,7 @@
   margin: 12px 0;
 }
 .order-status p {
-  font-size: 12px;
+  font-size: 14px;
   color: #767676;
 }
 .order-status.paid {
@@ -247,7 +247,7 @@
   font-family: inherit;
 }
 .shipping-address {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.9;
 }
 .shipping-address p {
@@ -257,7 +257,7 @@
 }
 .block-note {
   display: block;
-  font-size: 10px;
+  font-size: 14px;
   line-height: 1.8;
   color: var(--muted);
   margin-top: 7px;
@@ -267,7 +267,7 @@
   padding: 7px 10px;
   border-radius: 4px;
   background: #efeddf;
-  font-size: 11px;
+  font-size: 14px;
 }
 .status-pill.paid {
   background: #e2e2e2;
@@ -281,7 +281,7 @@
 details {
   margin-top: 9px;
   color: #797979;
-  font-size: 11px;
+  font-size: 14px;
 }
 details summary {
   cursor: pointer;
@@ -327,10 +327,10 @@ details summary {
     height: 90px;
   }
   .cart-item-info {
-    font-size: 12px;
+    font-size: 14px;
   }
   .cart-item-end {
-    font-size: 12px;
+    font-size: 14px;
   }
   .checkout-fields {
     padding: 20px;
@@ -349,10 +349,10 @@ details summary {
   }
   .header-actions .admin-link {
     max-width: none;
-    font-size: 10px;
+    font-size: 14px;
   }
   .cart-link {
-    font-size: 11px;
+    font-size: 14px;
   }
 }
 
@@ -368,7 +368,7 @@ details summary {
     align-items: center;
   }
   .header-actions .cart-link {
-    font-size: 13px;
+    font-size: 15px;
   }
   .checkout-layout {
     grid-template-columns: minmax(0, 1fr);
@@ -382,7 +382,7 @@ details summary {
   }
   .cart-item-info {
     min-width: 0;
-    font-size: 14px;
+    font-size: 16px;
     overflow-wrap: anywhere;
   }
   .cart-item-end {
@@ -396,7 +396,7 @@ details summary {
     min-width: 44px;
   }
   .add-cart {
-    font-size: 13px;
+    font-size: 15px;
   }
   .purchase-actions > * {
     flex: 1 1 100%;

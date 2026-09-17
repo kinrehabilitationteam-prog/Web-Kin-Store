@@ -2,7 +2,8 @@ import { CatalogRepository } from "../application/ports.js";
 import { CatalogError } from "../domain/catalog.js";
 const schema = `CREATE TABLE IF NOT EXISTS categories (id TEXT PRIMARY KEY, name TEXT NOT NULL UNIQUE);
 CREATE TABLE IF NOT EXISTS products (id TEXT PRIMARY KEY, sku TEXT NOT NULL UNIQUE, name TEXT NOT NULL, description TEXT NOT NULL, "categoryId" TEXT NOT NULL REFERENCES categories(id), price REAL NOT NULL CHECK(price >= 0), stock INTEGER NOT NULL CHECK(stock >= 0), image TEXT NOT NULL, featured INTEGER NOT NULL, "createdAt" TEXT NOT NULL);
-CREATE TABLE IF NOT EXISTS product_metadata ("productId" TEXT PRIMARY KEY REFERENCES products(id) ON DELETE CASCADE, details TEXT NOT NULL);`;
+CREATE TABLE IF NOT EXISTS product_metadata ("productId" TEXT PRIMARY KEY REFERENCES products(id) ON DELETE CASCADE, details TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS product_images (id TEXT PRIMARY KEY, type TEXT NOT NULL, data TEXT NOT NULL);`;
 export class SqlCatalogRepository extends CatalogRepository {
   constructor(query, close, transaction) {
     super();
@@ -25,6 +26,17 @@ export class SqlCatalogRepository extends CatalogRepository {
       featured: !!p.featured,
       ...(catalogJson ? { catalog: JSON.parse(catalogJson) } : {}),
     }));
+  }
+  saveImage(image) {
+    return this.query(
+      "INSERT INTO product_images (id,type,data) VALUES ($1,$2,$3) ON CONFLICT(id) DO NOTHING",
+      [image.id, image.type, image.data],
+    );
+  }
+  async getImage(id) {
+    return (
+      await this.query("SELECT type,data FROM product_images WHERE id=$1", [id])
+    )[0];
   }
   listCategories() {
     return this.query(

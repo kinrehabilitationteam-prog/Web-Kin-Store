@@ -1,5 +1,11 @@
 /** Repository port. Implementations belong to Infrastructure, never Domain. */
 export class CatalogRepository {
+  async saveImage(image) {
+    throw new Error("Not implemented");
+  }
+  async getImage(id) {
+    throw new Error("Not implemented");
+  }
   async listProducts() {
     throw new Error("Not implemented");
   }

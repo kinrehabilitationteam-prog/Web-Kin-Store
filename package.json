@@ -7,6 +7,9 @@
     "start": "node --env-file-if-exists=.env src/main.js",
     "dev": "node --watch --env-file-if-exists=.env src/main.js",
     "test": "node --test",
+    "db:check": "node --env-file-if-exists=.env scripts/check-database.mjs",
+    "db:init": "node --env-file-if-exists=.env scripts/init-database.mjs",
+    "db:verify-stock": "node --env-file-if-exists=.env scripts/verify-neon-stock.mjs",
     "format": "prettier --write public src tests scripts README.md compose.yaml package.json",
     "format:check": "prettier --check public src tests scripts README.md compose.yaml package.json"
   },

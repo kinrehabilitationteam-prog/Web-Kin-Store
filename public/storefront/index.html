@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/storefront/shop.css" />
     <script type="module" src="/storefront/app.js"></script>
     <link rel="stylesheet" href="/brand.css" />
+    <link rel="stylesheet" href="/storefront/catalog-design.css" />
     <link rel="icon" type="image/webp" href="/assets/logo-navbar.webp" />
   </head>
   <body>
@@ -34,6 +35,14 @@
           width="211"
           height="80"
       /></a>
+      <form class="search site-search" id="search-form" role="search">
+        <input
+          name="q"
+          aria-label="ค้นหาสินค้า"
+          placeholder="ค้นหาอุปกรณ์ ชื่อรุ่น หรือรหัสสินค้า…"
+        />
+        <button class="primary" type="submit">ค้นหา</button>
+      </form>
       <nav aria-label="เมนูหลัก">
         <a href="/" data-nav="home">หน้าแรก</a
         ><a href="/catalog" data-nav="catalog">สินค้า</a
@@ -59,6 +68,26 @@
       <p>อุปกรณ์การแพทย์เพื่อการดูแลที่บ้าน</p>
       <span>© 2026 KIN HOMECARE · แค็ตตาล็อกอุปกรณ์การแพทย์</span>
     </footer>
+    <a
+      class="line-contact"
+      href="https://line.me/R/ti/p/@145aflze"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="แชทผ่าน LINE กับ KIN HOMECARE @145aflze (เปิดแท็บใหม่)"
+    >
+      <svg
+        width="26"
+        height="26"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          d="M12 3C6.5 3 2 6.6 2 11c0 3.9 3.5 7.2 8.2 7.9l-.5 3.1 4.5-3.3C18.7 17.9 22 14.8 22 11c0-4.4-4.5-8-10-8Z"
+        />
+      </svg>
+      <span><strong>แชทผ่าน LINE</strong><small>@145aflze</small></span>
+    </a>
     <dialog id="editor"></dialog>
     <div id="toast" role="status" aria-live="polite"></div>
   </body>

@@ -41,7 +41,7 @@ button,
   border-radius: 6px;
   background: white;
   color: var(--primary);
-  font-size: 12px;
+  font-size: 14px;
 }
 .primary {
   background: var(--primary);
@@ -72,7 +72,7 @@ select:focus-visible {
 .brand span {
   display: block;
   font-family: inherit;
-  font-size: 9px;
+  font-size: 14px;
   letter-spacing: 2.5px;
   font-weight: normal;
   margin-top: 12px;
@@ -88,7 +88,7 @@ select:focus-visible {
   flex-direction: column;
 }
 .nav-label {
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 1px;
   color: #acacac;
   margin-top: 54px;
@@ -102,7 +102,7 @@ select:focus-visible {
 .sidebar nav a {
   padding: 14px;
   border-radius: 6px;
-  font-size: 13px;
+  font-size: 15px;
   color: #cacaca;
 }
 .sidebar nav a.active,
@@ -115,7 +115,7 @@ select:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  font-size: 12px;
+  font-size: 14px;
 }
 .sidebar-bottom button {
   background: transparent;
@@ -125,7 +125,7 @@ select:focus-visible {
 .account-menu {
   margin-top: auto;
   color: #f3f3f3;
-  font-size: 13px;
+  font-size: 15px;
 }
 .account-menu > summary {
   display: flex;
@@ -159,7 +159,7 @@ select:focus-visible {
   border-radius: 20px;
   background: #f7edda;
   color: #805b15;
-  font-size: 12px;
+  font-size: 14px;
 }
 .admin-workspace {
   margin-left: 230px;
@@ -172,14 +172,14 @@ select:focus-visible {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
 }
 .admin-badge {
   background: #eeeeee;
   padding: 9px 12px;
   border-radius: 20px;
-  font-size: 10px;
+  font-size: 14px;
   color: var(--primary);
 }
 main {
@@ -190,7 +190,7 @@ main {
 }
 .eyebrow {
   font-family: inherit;
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 2.5px;
   color: #848484;
 }
@@ -207,7 +207,7 @@ main {
   margin: 12px 0;
 }
 .section-head p {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
 }
 .admin-actions {
@@ -227,7 +227,7 @@ main {
   background: white;
   padding: 23px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
 }
 .metric strong {
   display: block;
@@ -255,7 +255,7 @@ table {
   border-collapse: collapse;
   width: 100%;
   text-align: left;
-  font-size: 12px;
+  font-size: 14px;
   white-space: nowrap;
 }
 th {
@@ -274,13 +274,13 @@ tr:last-child td {
   border-bottom: 0;
 }
 td button {
-  font-size: 11px;
+  font-size: 14px;
   padding: 7px 11px;
   margin-right: 5px;
 }
 td small {
   display: block;
-  font-size: 10px;
+  font-size: 14px;
   color: var(--muted);
   line-height: 1.8;
   margin-top: 5px;
@@ -305,13 +305,13 @@ td small {
 }
 .error {
   color: #a03930;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.8;
 }
 .notice {
   padding: 15px;
   background: #f2efe5;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.9;
   border-radius: 5px;
 }
@@ -320,7 +320,7 @@ td small {
   flex-direction: column;
   gap: 9px;
   margin: 17px 0;
-  font-size: 12px;
+  font-size: 14px;
 }
 .field input,
 .field select,
@@ -345,7 +345,7 @@ td small {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: 14px;
 }
 .available input {
   accent-color: var(--primary);
@@ -394,7 +394,7 @@ dialog::backdrop {
   background: var(--primary);
   color: white;
   border-radius: 6px;
-  font-size: 12px;
+  font-size: 14px;
   z-index: 20;
 }
 #toast.visible {
@@ -404,7 +404,7 @@ dialog::backdrop {
   padding: 6px 9px;
   background: #eeeadd;
   border-radius: 4px;
-  font-size: 10px;
+  font-size: 14px;
 }
 .status-pill.paid {
   background: #e5e5e5;
@@ -415,7 +415,7 @@ dialog::backdrop {
   background: #f6e8e0;
 }
 details {
-  font-size: 11px;
+  font-size: 14px;
   color: #7d7d7d;
   margin-top: 8px;
 }
@@ -470,7 +470,7 @@ details p {
 }
 .login-intro .eyebrow {
   color: #a5a5a5;
-  font-size: 9px;
+  font-size: 14px;
 }
 .login-intro h2 {
   font-weight: normal;
@@ -479,12 +479,12 @@ details p {
   letter-spacing: -1px;
 }
 .login-intro p {
-  font-size: 14px;
+  font-size: 16px;
   color: #afafaf;
   line-height: 2;
 }
 .intro-footer {
-  font-size: 10px;
+  font-size: 14px;
   letter-spacing: 1.5px;
   color: #a6a6a6;
 }
@@ -520,7 +520,7 @@ details p {
   margin: 14px 0;
 }
 .login > p {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--muted);
   line-height: 1.8;
   margin-bottom: 30px;
@@ -541,7 +541,7 @@ details p {
   border: 0;
   background: transparent;
   padding: 10px;
-  font-size: 11px;
+  font-size: 14px;
 }
 .login .primary {
   padding: 14px;
@@ -555,11 +555,11 @@ details p {
   display: block;
   text-align: center;
   margin-top: 25px;
-  font-size: 12px;
+  font-size: 14px;
   color: #737373;
 }
 .login-footnote {
-  font-size: 10px;
+  font-size: 14px;
   color: #989898;
   margin-top: 50px;
 }
@@ -601,7 +601,7 @@ details p {
     font-size: 32px;
   }
   .sidebar .brand span {
-    font-size: 8px;
+    font-size: 14px;
   }
   .nav-label {
     display: none;
@@ -613,7 +613,7 @@ details p {
     gap: 5px;
   }
   .sidebar nav a {
-    font-size: 11px;
+    font-size: 14px;
     padding: 10px;
   }
   .sidebar-bottom {
@@ -623,7 +623,7 @@ details p {
     justify-content: space-between;
   }
   .sidebar-bottom button {
-    font-size: 10px;
+    font-size: 14px;
     padding: 8px;
   }
   .admin-workspace {
@@ -632,7 +632,7 @@ details p {
   .admin-header {
     height: 55px;
     padding: 0 20px;
-    font-size: 10px;
+    font-size: 14px;
   }
   main {
     padding: 20px;
@@ -642,7 +642,7 @@ details p {
   }
   .metric {
     padding: 15px 12px;
-    font-size: 10px;
+    font-size: 14px;
   }
   .metric strong {
     font-size: 25px;
@@ -681,7 +681,7 @@ details p {
 @media (max-width: 700px) {
   .sidebar nav a {
     min-height: 44px;
-    font-size: 13px;
+    font-size: 15px;
   }
   .sidebar-bottom {
     flex-wrap: wrap;
@@ -704,7 +704,7 @@ details p {
   }
   .metric {
     padding: 14px 8px;
-    font-size: 12px;
+    font-size: 14px;
     overflow-wrap: anywhere;
   }
   .metric strong {
@@ -792,7 +792,7 @@ details p {
   .account-menu .sidebar-bottom a,
   .account-menu .sidebar-bottom button {
     justify-content: center;
-    font-size: 13px;
+    font-size: 15px;
   }
   .admin-header {
     display: none;
@@ -811,7 +811,7 @@ details p {
   }
   .section-head p {
     margin: 6px 0 0;
-    font-size: 13px;
+    font-size: 15px;
   }
   .metrics {
     margin: 18px 0 24px;
@@ -819,7 +819,7 @@ details p {
   }
   .metric {
     padding: 12px 8px;
-    font-size: 11px;
+    font-size: 14px;
   }
   .metric strong {
     margin-top: 6px;
@@ -829,7 +829,7 @@ details p {
     align-items: center;
   }
   .list-toolbar button {
-    font-size: 13px;
+    font-size: 15px;
   }
   .table-wrap {
     border: 0;
@@ -865,14 +865,14 @@ details p {
     min-width: 0;
     border: 0;
     padding: 0;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.7;
     overflow-wrap: anywhere;
   }
   .management-table td::before {
     content: attr(data-label);
     display: block;
-    font-size: 11px;
+    font-size: 14px;
     color: var(--muted);
     margin-bottom: 4px;
   }
@@ -895,11 +895,11 @@ details p {
   .management-table td button {
     min-width: 80px;
     min-height: 44px;
-    font-size: 13px;
+    font-size: 15px;
   }
   .management-table td small,
   .management-table details {
-    font-size: 12px;
+    font-size: 14px;
   }
   .management-table details summary {
     min-height: 44px;
@@ -941,7 +941,7 @@ details p {
   overflow-wrap: anywhere;
 }
 .order-detail h3 {
-  font-size: 15px;
+  font-size: 17px;
   margin: 24px 0 12px;
 }
 .order-info {
@@ -953,7 +953,7 @@ details p {
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
   gap: 12px;
   padding: 8px 0;
-  font-size: 13px;
+  font-size: 15px;
 }
 .order-info dt,
 .order-totals dt {
@@ -976,11 +976,11 @@ details p {
   gap: 6px;
   padding: 14px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 13px;
+  font-size: 15px;
 }
 .order-detail-items li > span {
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
 }
 .order-detail-items li > div {
   display: flex;
@@ -1073,7 +1073,7 @@ details p {
     padding: 12px 8px;
     border: 0;
     border-bottom: 1px solid var(--line);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 400;
     line-height: 1.7;
     vertical-align: middle;
@@ -1091,9 +1091,35 @@ details p {
     min-height: 44px;
     margin: 0;
     padding: 8px 4px;
-    font-size: 12px;
+    font-size: 14px;
   }
   .management-table.categories-table td button + button {
     margin-top: 8px;
   }
+}
+.image-upload-preview {
+  display: block;
+  width: 160px;
+  max-width: 100%;
+  height: 130px;
+  object-fit: contain;
+  border: 1px solid #e7dccb;
+  border-radius: 8px;
+  background: #fff;
+  margin: 0 0 16px;
+}
+#product-image-file {
+  width: 100%;
+  min-width: 0;
+  padding: 10px;
+}
+#product-image-file::file-selector-button {
+  border: 0;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-right: 10px;
+  background: #f7edda;
+  color: #62460f;
+  cursor: pointer;
+  font: inherit;
 }

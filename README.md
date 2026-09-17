@@ -159,6 +159,17 @@ Domain ไม่อ้างอิงฐานข้อมูลหรือ HTT
 
 ## ใช้ PostgreSQL + Meilisearch ตาม Flowchart
 
+### เชื่อมต่อ Neon
+
+1. เปิด Neon Console → โปรเจกต์ → Connect และเลือก branch/database ที่ต้องการ
+2. คัดลอก connection string ลงใน `.env` เป็น `DATABASE_URL` โดยเก็บพารามิเตอร์ SSL ที่ Neon ให้มาครบถ้วน อย่านำ `.env` ขึ้น Git
+3. รัน `npm run db:check` เพื่อตรวจการเชื่อมต่อแบบอ่านอย่างเดียว คำสั่งนี้ไม่แสดงรหัสผ่าน
+4. หยุดเซิร์ฟเวอร์เดิมแล้วรัน `npm start` ใหม่ แอปจะเลือก PostgreSQL เมื่อมี `DATABASE_URL`
+
+ข้อมูล SQLite เดิมยังอยู่ใน `data/catalog.sqlite` และไม่ได้ย้ายไป Neon อัตโนมัติ ฐานข้อมูลใหม่จะได้รับแค็ตตาล็อกเริ่มต้นเมื่อเริ่มแอป หากต้องการเก็บข้อมูลที่แก้ไขและคำสั่งซื้อเดิม ต้องย้ายข้อมูลก่อนเริ่มใช้งานฐานข้อมูลใหม่
+
+อ้างอิง: [Neon connection pooling](https://neon.com/docs/connect/connection-pooling)
+
 มี `compose.yaml` สำหรับบริการทั้งสอง ต้องติดตั้ง Docker พร้อม Compose ก่อน เครื่องที่สร้างโปรเจกต์นี้ยังไม่มี Docker จึงยังไม่ได้ทดสอบ integration กับสองบริการนี้จริง
 
 เพิ่มค่าใน `.env` โดยแทนค่ารหัสผ่านและคีย์ด้วยค่าของคุณ:
@@ -237,3 +248,7 @@ npm run format:check
 - [Node.js SQLite](https://nodejs.org/api/sqlite.html)
 - [node-postgres: Parameterized queries](https://node-postgres.com/features/queries)
 - [Meilisearch: Monitoring indexing tasks](https://www.meilisearch.com/docs/capabilities/indexing/tasks_and_batches/monitor_tasks)
+
+# อัปโหลดรูปสินค้า
+
+หน้าเพิ่ม/แก้ไขสินค้าเลือกไฟล์ JPG, PNG หรือ WebP ได้สูงสุด 2 MB พร้อมภาพตัวอย่าง หากไม่เลือกไฟล์ใหม่จะคงรูปเดิมไว้ รูปจะถูกเก็บในตาราง `product_images` ของฐานข้อมูลที่โปรเจคใช้งาน (Neon/SQLite) ไม่พึ่งพื้นที่ไฟล์ชั่วคราวบนเซิร์ฟเวอร์ ตารางสร้างอัตโนมัติเมื่อเริ่มเซิร์ฟเวอร์ หรือใช้ `npm run db:init` สำหรับ Neon หลังอัปเดตโค้ดให้รีสตาร์ตเซิร์ฟเวอร์

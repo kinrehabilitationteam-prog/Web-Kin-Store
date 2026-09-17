@@ -266,7 +266,7 @@ function edit(item) {
     toast("กรุณาเพิ่มหมวดหมู่ก่อนเพิ่มสินค้า");
     return;
   }
-  dialog.innerHTML = `<form id="edit-form"><div class="dialog-head"><h2>${item ? "แก้ไข" : "เพิ่ม"}${product ? "สินค้า" : "หมวดหมู่"}</h2><button type="button" class="icon-button" id="close-dialog" aria-label="ปิด">×</button></div>${item?.catalog ? '<div class="notice">รายการเช่าจาก KIN: ราคาเป็นค่าเช่าเริ่มต้น สต็อกจริงต้องยืนยัน และการชำระออนไลน์ยังไม่เปิดสำหรับรายการนี้</div>' : ""}<label class="field">${product ? "ชื่อสินค้า" : "ชื่อหมวดหมู่"}<input name="name" maxlength="${product ? 160 : 80}" required value="${esc(item?.name || "")}"></label>${product ? `<div class="form-grid"><label class="field">รหัสสินค้า<input name="sku" maxlength="40" required value="${esc(item?.sku || "")}"></label><label class="field">หมวดหมู่<select name="categoryId">${categories.map((c) => `<option value="${esc(c.id)}" ${item?.categoryId === c.id ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label><label class="field">ราคา (บาท)<input type="number" name="price" min="0" max="100000000" step="0.01" required value="${item?.price ?? ""}"></label><label class="field">จำนวนคงเหลือ<input type="number" name="stock" min="0" max="10000000" step="1" required value="${item?.stock ?? 0}"></label></div><label class="field">รายละเอียดสินค้า<textarea name="description" maxlength="4000" required>${esc(item?.description || "")}</textarea></label><label class="field">ลิงก์รูปภาพ (HTTPS) · เว้นว่างเพื่อใช้รูปเริ่มต้น<input name="image" value="${esc(item?.image || "")}" placeholder="https://example.com/product.jpg"></label><label class="available"><input name="featured" type="checkbox" ${item?.featured ? "checked" : ""}>แสดงป้ายคัดสรรโดย KIN HOMECARE</label>` : ""}<p class="error" role="alert"></p><div class="dialog-actions"><button type="button" id="cancel">ยกเลิก</button><button type="submit" class="primary">บันทึกข้อมูล</button></div></form>`;
+  dialog.innerHTML = `<form id="edit-form"><div class="dialog-head"><h2>${item ? "แก้ไข" : "เพิ่ม"}${product ? "สินค้า" : "หมวดหมู่"}</h2><button type="button" class="icon-button" id="close-dialog" aria-label="ปิด">×</button></div>${item?.catalog ? '<div class="notice">รายการเช่าจาก KIN: ราคาเป็นค่าเช่าเริ่มต้น สต็อกจริงต้องยืนยัน และการชำระออนไลน์ยังไม่เปิดสำหรับรายการนี้</div>' : ""}<label class="field">${product ? "ชื่อสินค้า" : "ชื่อหมวดหมู่"}<input name="name" maxlength="${product ? 160 : 80}" required value="${esc(item?.name || "")}"></label>${product ? `<div class="form-grid"><label class="field">รหัสสินค้า<input name="sku" maxlength="40" required value="${esc(item?.sku || "")}"></label><label class="field">หมวดหมู่<select name="categoryId">${categories.map((c) => `<option value="${esc(c.id)}" ${item?.categoryId === c.id ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label><label class="field">ราคา (บาท)<input type="number" name="price" min="0" max="100000000" step="0.01" required value="${item?.price ?? ""}"></label><label class="field">จำนวนคงเหลือ<input type="number" name="stock" min="0" max="10000000" step="1" required value="${item?.stock ?? 0}"></label></div><label class="field">รายละเอียดสินค้า<textarea name="description" maxlength="4000" required>${esc(item?.description || "")}</textarea></label><label class="field">รูปภาพสินค้า<input id="product-image-file" type="file" accept="image/jpeg,image/png,image/webp"><small>JPG, PNG, WebP (max 2 MB)</small></label><img class="image-upload-preview" id="image-upload-preview" src="${esc(item?.image || "/assets/vase.svg")}" alt="Product image preview"><input type="hidden" name="image" value="${esc(item?.image || "")}"><label class="available"><input name="featured" type="checkbox" ${item?.featured ? "checked" : ""}>แสดงป้ายคัดสรรโดย KIN HOMECARE</label>` : ""}<p class="error" role="alert"></p><div class="dialog-actions"><button type="button" id="cancel">ยกเลิก</button><button type="submit" class="primary">บันทึกข้อมูล</button></div></form>`;
   dialog.showModal();
   document.querySelector("#close-dialog").onclick = closeDialog;
   document.querySelector("#cancel").onclick = closeDialog;
@@ -278,6 +278,16 @@ function edit(item) {
     if (product) data.featured = data.featured === "on";
     button.disabled = true;
     try {
+      if (
+        product &&
+        document.querySelector("#product-image-file").files.length
+      ) {
+        const imageData = await readProductImage(
+          document.querySelector("#product-image-file").files[0],
+        );
+        const uploaded = await api("/images", "POST", { data: imageData });
+        data.image = uploaded.url;
+      }
       await api(
         "/" + adminTab + (item ? "/" + item.id : ""),
         item ? "PUT" : "POST",
@@ -291,6 +301,40 @@ function edit(item) {
       button.disabled = false;
     }
   };
+  const fileInput = document.querySelector("#product-image-file");
+  if (fileInput)
+    fileInput.onchange = async () => {
+      const file = fileInput.files[0];
+      const preview = document.querySelector("#image-upload-preview");
+      const error = dialog.querySelector(".error");
+      error.textContent = "";
+      try {
+        const source = file
+          ? await readProductImage(file)
+          : item?.image || "/assets/vase.svg";
+        if (fileInput.isConnected && fileInput.files[0] === file)
+          preview.src = source;
+      } catch (err) {
+        if (fileInput.isConnected && fileInput.files[0] === file) {
+          error.textContent = err.message;
+          fileInput.value = "";
+          preview.src = item?.image || "/assets/vase.svg";
+        }
+      }
+    };
+}
+function readProductImage(file) {
+  return new Promise((resolve, reject) => {
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type))
+      return reject(new Error("กรุณาเลือกภาพ JPG, PNG หรือ WebP"));
+    if (!file.size || file.size > 2 * 1024 * 1024)
+      return reject(new Error("รูปภาพต้องมีขนาดไม่เกิน 2 MB"));
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () =>
+      reject(new Error("อ่านรูปภาพไม่ได้ กรุณาเลือกไฟล์ใหม่"));
+    reader.readAsDataURL(file);
+  });
 }
 function remove(item) {
   dialog.innerHTML = `<div class="dialog-head"><h2>ยืนยันการลบ</h2><button class="icon-button" id="close-dialog" aria-label="ปิด">×</button></div><p>ต้องการลบ “${esc(item.name)}” หรือไม่?</p><p class="error" role="alert"></p><div class="dialog-actions"><button id="cancel">ยกเลิก</button><button id="confirm" class="danger">ลบข้อมูล</button></div>`;

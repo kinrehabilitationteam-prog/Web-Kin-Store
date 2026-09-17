@@ -3,6 +3,7 @@ import {
   categoryInput,
   productInput,
 } from "../domain/catalog.js";
+import { imageInput } from "./product-images.js";
 export class CatalogService {
   constructor(repository, search, newId) {
     this.repository = repository;
@@ -11,6 +12,16 @@ export class CatalogService {
   }
   categories() {
     return this.repository.listCategories();
+  }
+  async uploadImage(input) {
+    const image = imageInput(input);
+    await this.repository.saveImage(image);
+    return { url: `/api/images/${image.id}` };
+  }
+  async image(id) {
+    const image = await this.repository.getImage(id);
+    if (!image) throw new CatalogError("ไม่พบรูปภาพ", 404);
+    return image;
   }
   async products({
     q = "",

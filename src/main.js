@@ -7,6 +7,7 @@ import { createHttpServer } from "./presentation/http-server.js";
 import { SqlOrderRepository } from "./infrastructure/order-repository.js";
 import { DemoPaymentGateway } from "./infrastructure/demo-payment.js";
 import { StripePaymentGateway } from "./infrastructure/stripe-payment.js";
+import { PaySolutionsPaymentGateway } from "./infrastructure/paysolutions-payment.js";
 import { CommerceService } from "./application/commerce-service.js";
 const repository = await createRepository({
   databaseUrl: process.env.DATABASE_URL,
@@ -23,18 +24,26 @@ await service.reindex();
 const orders = new SqlOrderRepository(repository);
 await orders.initialize();
 const paymentProvider = process.env.PAYMENT_PROVIDER || "demo";
-if (!["demo", "stripe"].includes(paymentProvider))
-  throw new Error("PAYMENT_PROVIDER must be demo or stripe");
+if (!["demo", "stripe", "paysolutions"].includes(paymentProvider))
+  throw new Error("PAYMENT_PROVIDER must be demo, stripe or paysolutions");
 if (process.env.NODE_ENV === "production" && paymentProvider === "demo")
   throw new Error("Demo payment is disabled in production. Configure Stripe.");
 const gateway =
-  paymentProvider === "stripe"
-    ? new StripePaymentGateway({
-        secretKey: process.env.STRIPE_SECRET_KEY,
-        webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
-        publicUrl: process.env.PUBLIC_URL || "http://127.0.0.1:3000",
+  paymentProvider === "paysolutions"
+    ? new PaySolutionsPaymentGateway({
+        merchantId: process.env.PAYSOLUTIONS_MERCHANT_ID,
+        shopName: process.env.PAYSOLUTIONS_SHOP_NAME,
+        apiKey: process.env.PAYSOLUTIONS_API_KEY,
+        secretKey: process.env.PAYSOLUTIONS_SECRET_KEY,
+        publicUrl: process.env.PUBLIC_URL,
       })
-    : new DemoPaymentGateway();
+    : paymentProvider === "stripe"
+      ? new StripePaymentGateway({
+          secretKey: process.env.STRIPE_SECRET_KEY,
+          webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+          publicUrl: process.env.PUBLIC_URL || "http://127.0.0.1:3000",
+        })
+      : new DemoPaymentGateway();
 const commerce = new CommerceService({
   catalog: repository,
   orders,
