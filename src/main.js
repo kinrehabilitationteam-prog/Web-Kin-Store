@@ -9,10 +9,12 @@ import { DemoPaymentGateway } from "./infrastructure/demo-payment.js";
 import { StripePaymentGateway } from "./infrastructure/stripe-payment.js";
 import { PaySolutionsPaymentGateway } from "./infrastructure/paysolutions-payment.js";
 import { CommerceService } from "./application/commerce-service.js";
+if (process.env.VERCEL && !process.env.DATABASE_URL)
+  throw new Error("DATABASE_URL is required on Vercel");
 const repository = await createRepository({
   databaseUrl: process.env.DATABASE_URL,
 });
-await seed(repository);
+if (!process.env.VERCEL) await seed(repository);
 const search = process.env.MEILISEARCH_URL
   ? new MeilisearchIndex(
       process.env.MEILISEARCH_URL,
@@ -20,14 +22,16 @@ const search = process.env.MEILISEARCH_URL
     )
   : null;
 const service = new CatalogService(repository, search, randomUUID);
-await service.reindex();
+if (!process.env.VERCEL) await service.reindex();
 const orders = new SqlOrderRepository(repository);
 await orders.initialize();
 const paymentProvider = process.env.PAYMENT_PROVIDER || "demo";
 if (!["demo", "stripe", "paysolutions"].includes(paymentProvider))
   throw new Error("PAYMENT_PROVIDER must be demo, stripe or paysolutions");
 if (process.env.NODE_ENV === "production" && paymentProvider === "demo")
-  throw new Error("Demo payment is disabled in production. Configure Stripe.");
+  throw new Error(
+    "Demo payment is disabled in production. Configure Stripe or Pay Solutions.",
+  );
 const gateway =
   paymentProvider === "paysolutions"
     ? new PaySolutionsPaymentGateway({
@@ -63,38 +67,40 @@ const sweep = async () => {
     sweepRunning = false;
   }
 };
-const sweepTimer = setInterval(sweep, 60000);
-sweepTimer.unref();
-await sweep();
-const server = createHttpServer(service, {
+const sweepTimer = process.env.VERCEL ? null : setInterval(sweep, 60000);
+sweepTimer?.unref();
+if (!process.env.VERCEL) await sweep();
+export const server = createHttpServer(service, {
   adminPassword: process.env.ADMIN_PASSWORD,
   secureCookie: process.env.COOKIE_SECURE === "true",
   commerce,
 });
-server.listen(
-  Number(process.env.PORT) || 3000,
-  process.env.HOST || "127.0.0.1",
-  () => {
-    console.log(
-      `BAAN Catalog: http://${process.env.HOST || "127.0.0.1"}:${process.env.PORT || 3000}`,
-    );
-    console.log(
-      `Payment: ${gateway.label}${gateway.enabled ? "" : " (not configured)"}`,
-    );
-    console.log(
-      `Database: ${process.env.DATABASE_URL ? "PostgreSQL" : "SQLite"} | Search: ${search ? "Meilisearch with database fallback" : "Database"}`,
-    );
-    if (!process.env.ADMIN_PASSWORD)
+if (!process.env.VERCEL)
+  server.listen(
+    Number(process.env.PORT) || 3000,
+    process.env.HOST || "127.0.0.1",
+    () => {
       console.log(
-        "Admin disabled: set ADMIN_PASSWORD (12+ characters) in .env.",
+        `BAAN Catalog: http://${process.env.HOST || "127.0.0.1"}:${process.env.PORT || 3000}`,
       );
-  },
-);
-for (const signal of ["SIGINT", "SIGTERM"])
-  process.on(signal, () =>
-    server.close(async () => {
-      clearInterval(sweepTimer);
-      await repository.close();
-      process.exit(0);
-    }),
+      console.log(
+        `Payment: ${gateway.label}${gateway.enabled ? "" : " (not configured)"}`,
+      );
+      console.log(
+        `Database: ${process.env.DATABASE_URL ? "PostgreSQL" : "SQLite"} | Search: ${search ? "Meilisearch with database fallback" : "Database"}`,
+      );
+      if (!process.env.ADMIN_PASSWORD)
+        console.log(
+          "Admin disabled: set ADMIN_PASSWORD (12+ characters) in .env.",
+        );
+    },
   );
+if (!process.env.VERCEL)
+  for (const signal of ["SIGINT", "SIGTERM"])
+    process.on(signal, () =>
+      server.close(async () => {
+        clearInterval(sweepTimer);
+        await repository.close();
+        process.exit(0);
+      }),
+    );
